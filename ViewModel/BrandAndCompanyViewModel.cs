@@ -11,7 +11,6 @@ namespace homework_52.ViewModel
     {
         public Product Product { get; set; }
         public List<Brend> BrendList { get; set; }
-        public IFormFile ProfileImage { get; set; }
         public List<Category> CategoryList { get; set; }
     }
 }

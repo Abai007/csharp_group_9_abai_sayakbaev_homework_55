@@ -34,6 +34,7 @@ namespace homework_52.Controllers
         {
             var viewModel = new BrandAndCompanyViewModel();
             viewModel.Product = _db.Products.FirstOrDefault(e => e.Id == id);
+            viewModel.Product.ImageModel = viewModel.Product.ImageModel;
             viewModel.Product.Brend = _db.Brends.FirstOrDefault(e => e.Id == viewModel.Product.BrendId);
             viewModel.Product.Category = _db.Categories.FirstOrDefault(e => e.Id == viewModel.Product.CategoryId);
             return View(viewModel);
@@ -46,36 +47,37 @@ namespace homework_52.Controllers
             ViewBag.categories = new SelectList(categories, "Id", "Name");
             return View();
         }
+        private ImageModel ReadIForm(IFormFile uploadedFile)
+        {
+            string path = "/Files/" + uploadedFile.FileName;
+            using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+            {
+                uploadedFile.CopyTo(fileStream);
+            }
+            ImageModel file = new ImageModel { Name = uploadedFile.FileName, Path = path, };
+            return file;
+        }
 
         [HttpPost]
         public IActionResult Create(BrandAndCompanyViewModel p, IFormFile uploadedFile)
         {
-            if (uploadedFile != null)
+            ImageModel file = ReadIForm(uploadedFile);
+            p.Product.ImageModel = file;
+            Product prod = new Product();
+            prod.Name = p.Product.Name;
+            prod.Price = p.Product.Price;
+            prod.CreateDate = DateTime.Now;
+            prod.UpDateDate = DateTime.Now;
+            prod.ImageModel = file;
+            prod.Image = file.Path;
+            prod.BrendId = p.Product.BrendId;
+            prod.Brend = _db.Brends.FirstOrDefault(b => b.Id == p.Product.BrendId);
+            prod.CategoryId = p.Product.CategoryId;
+            prod.Category = _db.Categories.FirstOrDefault(c => c.Id == p.Product.CategoryId);
+            if (prod != null)
             {
-                string path = "~/Files/" + uploadedFile.FileName;
-                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
-                {
-                    uploadedFile.CopyToAsync(fileStream);
-                }
-                ImageModel file = new ImageModel { Name = uploadedFile.FileName, Path = path };
-                _db.Images.Add(file);
+                _db.Products.Add(prod);
                 _db.SaveChanges();
-                Product prod = new Product();
-                prod.Name = p.Product.Name;
-                prod.Price = p.Product.Price;
-                prod.CreateDate = DateTime.Now;
-                prod.UpDateDate = DateTime.Now;
-                ImageModel Img = _db.Images.FirstOrDefault(a => a.Id == p.Product.Id);
-                prod.Image = Img.Path;
-                prod.BrendId = p.Product.BrendId;
-                prod.Brend = _db.Brends.FirstOrDefault(b => b.Id == p.Product.BrendId);
-                prod.CategoryId = p.Product.CategoryId;
-                prod.Category = _db.Categories.FirstOrDefault(c => c.Id == p.Product.CategoryId);
-                if (prod != null)
-                {
-                    _db.Products.Add(prod);
-                    _db.SaveChanges();
-                }
             }
             return RedirectToAction("Index");
         }
@@ -92,19 +94,20 @@ namespace homework_52.Controllers
             return View(PCB);
         }
         [HttpPost]
-        public IActionResult EditingProduct(Product product)
+        public IActionResult EditingProduct(Product product, IFormFile uploadedFile)
         {
+            ImageModel file = ReadIForm(uploadedFile);
             Product p = _db.Products.FirstOrDefault(p => p.Id == product.Id);
             p.Name = product.Name;
             p.UpDateDate = DateTime.Now;
             p.Price = product.Price;
             p.Category = _db.Categories.Find(product.CategoryId);
             p.Brend = _db.Brends.Find(product.BrendId);
-            p.Image = product.Image;
+            p.ImageModel = file;
+            p.Image = file.Path;
             _db.Products.Update(p);
             _db.SaveChanges();
             return RedirectToAction("index");
-
         }
     }
 }

@@ -31,7 +31,7 @@
     <tr>
         @if (product.Image != null)
         {
-            <td><img src="@product.Image" alt="Product image" width="100px" /></td>
+            <td><img src="@product.Image" width="100" asp-append-version="true"/></td>
         }
         <td>@product.Name</td>
         <td>@product.Price</td>

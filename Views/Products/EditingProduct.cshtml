@@ -6,7 +6,7 @@
 
 
 <h2>Product № @Model.Product.Id</h2>
-@using (Html.BeginForm("EditingProduct", "Products", FormMethod.Post))
+@using (Html.BeginForm("EditingProduct", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <fieldset>
         @Html.HiddenFor(m => m.Product.Id)
@@ -23,9 +23,12 @@
         </p>
 
         <p>
-            @Html.LabelFor(m => m.Product.Image, "Picture Url")
-            <br />
-            @Html.EditorFor(m => m.Product.Image)
+            <div class="form_row">
+                <label for="" >
+                    Выберите фото
+                    <input type="file" name="uploadedFile" value="@Model.Product.Image"/>
+                </label>
+            </div>
         </p>
         <p>
             <label asp-for="Product.Brend"></label>

@@ -10,7 +10,5 @@ namespace homework_52.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Path { get; set; }
-        public int ImageId { get; set; }
-        public ImageModel Image { get; set; }
     }
 }

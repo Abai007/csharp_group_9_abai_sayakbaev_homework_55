@@ -37,19 +37,12 @@ namespace homework_52.Controllers
         [HttpPost]
 
         public IActionResult Create(Order order)
-
         {
-
             if (order != null)
-
             {
-
                 _db.Orders.Add(order);
-
                 _db.SaveChanges();
-
             }
-
             return RedirectToAction("Index");
 
         }

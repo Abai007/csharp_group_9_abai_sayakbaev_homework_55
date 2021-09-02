@@ -15,7 +15,6 @@ namespace homework_52.Models
         public DbSet<Category> Categories { get; set; }
         public DbSet<Brend> Brends { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<ImageModel> Images { get; set; }
         public StoreContext(DbContextOptions<StoreContext> options)
 
             : base(options)
