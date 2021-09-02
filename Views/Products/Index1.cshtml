@@ -1,0 +1,49 @@
+﻿@model homework_52.ViewModel.BrandAndCompanyViewModel
+
+@{
+
+    ViewBag.Title = "Продукт";
+    Layout = "_Layout";
+}
+<h2>Продукт</h2>
+@if (Model.Product.Image != null)
+{
+    <img src="@Model.Product.Image" alt="Product image" width="300px" />
+}
+<div class="table_section">
+    <table style="width: 100%;">
+        <tr>
+            <th>ID</th>
+            <th>Имя</th>
+            @if (Model.Product.UpDateDate != null)
+            {
+                <th>Дата редактирования</th>
+            }
+            else
+            {
+                <th>Дата добавление</th>
+            }
+
+            <th>Цена</th>
+            <th>Бренд</th>
+            <th>Категория</th>
+            <th>Редактировать</th>
+        </tr>
+        <tr>
+            <td>@Model.Product.Id</td>
+            <td>@Model.Product.Name</td>
+            @if (Model.Product.UpDateDate != null)
+            {
+                <td>@Model.Product.UpDateDate</td>
+            }
+            else
+            {
+                <td>@Model.Product.CreateDate</td>
+            }
+            <td>@Model.Product.Price</td>
+            <td>@Model.Product.Brend.Name</td>
+            <td>@Model.Product.Category.Name</td>
+            <td><button><a asp-action="EditingProduct" asp-controller="Products" asp-route-Id="@Model.Product.Id">Редактировать</a></button></td>
+        </tr>
+    </table>
+</div>

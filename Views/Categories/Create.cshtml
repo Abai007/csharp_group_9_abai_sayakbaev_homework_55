@@ -1,0 +1,39 @@
+﻿@model Category
+
+
+@{
+
+    ViewBag.Title = "Добавить Категорию";
+
+    Layout = "_Layout";
+
+}
+
+
+<h2>Укажите название категории</h2>
+
+<div class="row">
+
+    <div class="category_add_form col-md-6">
+
+        <form asp-action="Create" method="post">
+
+            <div class="form_row">
+
+                <label for="">
+
+                    Название
+
+                    <input asp-for="Name" type="text">
+
+                </label>
+
+            </div>
+
+            <button type="submit">Создать</button>
+
+        </form>
+
+    </div>
+
+</div>
