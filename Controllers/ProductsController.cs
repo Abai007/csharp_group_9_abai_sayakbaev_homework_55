@@ -1,10 +1,13 @@
 ﻿using homework_52.Models;
 using homework_52.ViewModel;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,11 +16,13 @@ namespace homework_52.Controllers
     public class ProductsController : Controller
     {
         private StoreContext _db;
+        IWebHostEnvironment _appEnvironment;
         IEnumerable<Brend> brands = new List<Brend>();
         IEnumerable<Category> categories = new List<Category>();
-        public ProductsController(StoreContext db)
+        public ProductsController(StoreContext db, IWebHostEnvironment appEnvironment)
         {
             _db = db;
+            _appEnvironment = appEnvironment;
         }
 
         public IActionResult Index()
@@ -43,27 +48,38 @@ namespace homework_52.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(BrandAndCompanyViewModel p)
+        public IActionResult Create(BrandAndCompanyViewModel p, IFormFile uploadedFile)
         {
-            Product prod = new Product();
-            prod.Name = p.Product.Name;
-            prod.Price = p.Product.Price;
-            prod.CreateDate = DateTime.Now;
-            prod.UpDateDate = DateTime.Now;
-            prod.Image = p.Product.Image;
-            prod.BrendId = p.Product.BrendId;
-            prod.Brend = _db.Brends.FirstOrDefault(b => b.Id == p.Product.BrendId);
-            prod.CategoryId = p.Product.CategoryId;
-            prod.Category = _db.Categories.FirstOrDefault(c => c.Id == p.Product.CategoryId);
-            if (prod != null)
+            if (uploadedFile != null)
             {
-                _db.Products.Add(prod);
+                string path = "~/Files/" + uploadedFile.FileName;
+                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                {
+                    uploadedFile.CopyToAsync(fileStream);
+                }
+                ImageModel file = new ImageModel { Name = uploadedFile.FileName, Path = path };
+                _db.Images.Add(file);
                 _db.SaveChanges();
+                Product prod = new Product();
+                prod.Name = p.Product.Name;
+                prod.Price = p.Product.Price;
+                prod.CreateDate = DateTime.Now;
+                prod.UpDateDate = DateTime.Now;
+                ImageModel Img = _db.Images.FirstOrDefault(a => a.Id == p.Product.Id);
+                prod.Image = Img.Path;
+                prod.BrendId = p.Product.BrendId;
+                prod.Brend = _db.Brends.FirstOrDefault(b => b.Id == p.Product.BrendId);
+                prod.CategoryId = p.Product.CategoryId;
+                prod.Category = _db.Categories.FirstOrDefault(c => c.Id == p.Product.CategoryId);
+                if (prod != null)
+                {
+                    _db.Products.Add(prod);
+                    _db.SaveChanges();
+                }
             }
             return RedirectToAction("Index");
-            
         }
-       public IActionResult EditingProduct(int id)
+        public IActionResult EditingProduct(int id)
         {
             BrandAndCompanyViewModel PCB = new BrandAndCompanyViewModel();
             brands = _db.Brends.ToList();
@@ -76,7 +92,7 @@ namespace homework_52.Controllers
             return View(PCB);
         }
         [HttpPost]
-        public ActionResult EditingProduct(Product product)
+        public IActionResult EditingProduct(Product product)
         {
             Product p = _db.Products.FirstOrDefault(p => p.Id == product.Id);
             p.Name = product.Name;

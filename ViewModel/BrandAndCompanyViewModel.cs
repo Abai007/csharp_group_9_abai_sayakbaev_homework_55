@@ -1,4 +1,5 @@
 ﻿using homework_52.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace homework_52.ViewModel
     {
         public Product Product { get; set; }
         public List<Brend> BrendList { get; set; }
+        public IFormFile ProfileImage { get; set; }
         public List<Category> CategoryList { get; set; }
     }
 }

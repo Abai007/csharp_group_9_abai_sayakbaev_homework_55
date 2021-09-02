@@ -9,6 +9,7 @@
 <div class="row">
     <div class="phone_add_form col-md-6">
         <form asp-action="Create" method="post">
+            <input type="hidden" asp-for="Product.Id" />
             <div class="form_row">
                 <label for="">
                     Наименование
@@ -24,7 +25,7 @@
             <div class="form_row">
                 <label for="">
                     Url на фото товара
-                    <input asp-for="Product.Image" type="url">
+                    <input asp-for="Product.Image" type="file" name="uploadedFile"/>
                 </label>
             </div>
             <div>
