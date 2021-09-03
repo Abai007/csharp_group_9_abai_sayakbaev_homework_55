@@ -1,43 +1,46 @@
 ﻿@model homework_52.ViewModel.BrandAndCompanyViewModel
-@{
-    ViewData["Title"] = "Edit";
-    Layout = "_Layout";
-}
+@{ ViewData["Title"] = "Edit";
+                Layout = "_Layout"; }
 
 
 <h2>Product № @Model.Product.Id</h2>
 @using (Html.BeginForm("EditingProduct", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <fieldset>
-        @Html.HiddenFor(m => m.Product.Id)
-        <p>
-            @Html.LabelFor(m => m.Product.Name, "Name")
-            <br />
-            @Html.EditorFor(m => m.Product.Name)
-        </p>
-        <p>
-            @Html.LabelFor(m => m.Product.Price, "Price")
-            <br />
-            @Html.EditorFor(m => m.Product.Price)
+<fieldset>
+    @Html.HiddenFor(m => m.Product.Id)
+    <p>
+        @Html.LabelFor(m => m.Product.Name, "Name")
+        <br />
+        @Html.EditorFor(m => m.Product.Name)
+        <span asp-validation-for="Product.Name" />
+    </p>
+    <p>
+        @Html.LabelFor(m => m.Product.Price, "Price")
+        <br />
+        @Html.EditorFor(m => m.Product.Price)
+        <span asp-validation-for="Product.Price" />
 
-        </p>
+    </p>
 
-        <p>
-            <div class="form_row">
-                <label for="" >
-                    Выберите фото
-                    <input type="file" name="uploadedFile" value="@Model.Product.Image"/>
-                </label>
-            </div>
-        </p>
-        <p>
-            <label asp-for="Product.Brend"></label>
-            <select asp-for="Product.BrendId" asp-items="ViewBag.brands"></select>
-        </p>
-        <p>
-            <label asp-for="Product.Category"></label>
-            <select asp-for="Product.CategoryId" asp-items="ViewBag.categories"></select>
-        </p>
-        <p><input type="submit" value="Отправить" /></p>
-    </fieldset>
-}
+    <p>
+        <div class="form_row">
+            <label for="">
+                Выберите фото
+                <input type="file" name="uploadedFile" required />
+            </label>
+        </div>
+    </p>
+    <p>
+        <label asp-for="Product.Brend"></label>
+        <select asp-for="Product.BrendId" asp-items="ViewBag.brands"></select>
+    </p>
+    <p>
+        <label asp-for="Product.Category"></label>
+        <select asp-for="Product.CategoryId" asp-items="ViewBag.categories"></select>
+    </p>
+    <p><input type="submit" value="Отправить" /></p>
+</fieldset>}
+@section Scripts
+    {
+        @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    }

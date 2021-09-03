@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using homework_52.Models;
@@ -9,9 +10,10 @@ using homework_52.Models;
 namespace homework_52.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    partial class StoreContextModelSnapshot : ModelSnapshot
+    [Migration("20210903093733_CreateSortProrerties")]
+    partial class CreateSortProrerties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -118,7 +120,7 @@ namespace homework_52.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("ImageModelId")
+                    b.Property<int>("ImageModelId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Name")
@@ -157,36 +159,28 @@ namespace homework_52.Migrations
             modelBuilder.Entity("homework_52.Models.Product", b =>
                 {
                     b.HasOne("homework_52.Models.Brend", "Brend")
-                        .WithMany("Products")
+                        .WithMany()
                         .HasForeignKey("BrendId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("homework_52.Models.Category", "Category")
-                        .WithMany("Products")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("homework_52.Models.ImageModel", "ImageModel")
                         .WithMany()
-                        .HasForeignKey("ImageModelId");
+                        .HasForeignKey("ImageModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Brend");
 
                     b.Navigation("Category");
 
                     b.Navigation("ImageModel");
-                });
-
-            modelBuilder.Entity("homework_52.Models.Brend", b =>
-                {
-                    b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("homework_52.Models.Category", b =>
-                {
-                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

@@ -14,18 +14,20 @@
                 <label for="">
                     Наименование
                     <input asp-for="Product.Name" type="text" required>
+                    <span asp-validation-for="Product.Name" />
                 </label>
             </div>
             <div class="form_row">
                 <label for="">
                     Цена
                     <input asp-for="Product.Price" type="number" required>
+                    <span asp-validation-for="Product.Price" />
                 </label>
             </div>
             <div class="form_row">
                 <label for="">
                     Выберите фото
-                    <input type="file" name="uploadedFile"/>
+                    <input type="file" name="uploadedFile" required/>
                 </label>
             </div>
             <div>
@@ -38,7 +40,10 @@
             </div>
             <button type="submit">Create</button>
         </form>
-
+        @section Scripts
+        {
+            @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+        }
     </div>
 
 </div>

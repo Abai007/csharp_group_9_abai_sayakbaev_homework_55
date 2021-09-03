@@ -1,4 +1,5 @@
-﻿using homework_52.Models;
+﻿using homework_52.Enam;
+using homework_52.Models;
 using homework_52.ViewModel;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -25,10 +26,77 @@ namespace homework_52.Controllers
             _appEnvironment = appEnvironment;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(SortState sortOrder = SortState.NameAsc)
         {
-            List<Product> products = _db.Products.ToList();
-            return View(products);
+            IQueryable<Product> productsB = _db.Products.Include(x => x.Brend).Include(x => x.Category);
+            ViewBag.NameSort = sortOrder == SortState.NameAsc ? SortState.NameDesc : SortState.NameAsc;
+            ViewBag.PriceSort = sortOrder == SortState.PriceAsc ? SortState.PriceDesc : SortState.PriceAsc;
+            ViewBag.DateSort = sortOrder == SortState.DateAsc ? SortState.DateDesc : SortState.DateAsc;
+            ViewBag.CategorySort = sortOrder == SortState.CategoryAsc ? SortState.CategoryDesc : SortState.CategoryAsc;
+            ViewBag.BrandSort = sortOrder == SortState.BrandAsc ? SortState.BrandDesc : SortState.BrandAsc;
+            switch (sortOrder)
+
+            {
+
+                case SortState.NameDesc:
+
+                    productsB = productsB.OrderByDescending(s => s.Name);
+
+                    break;
+
+                case SortState.PriceAsc:
+
+                    productsB = productsB.OrderBy(s => s.Price);
+
+                    break;
+
+                case SortState.PriceDesc:
+
+                    productsB = productsB.OrderByDescending(s => s.Price);
+
+                    break;
+
+                case SortState.BrandAsc:
+
+                    productsB = productsB.OrderBy(s => s.Brend.Name);
+
+                    break;
+
+                case SortState.BrandDesc:
+
+                    productsB = productsB.OrderByDescending(s => s.Brend.Name);
+
+                    break;
+                case SortState.DateAsc:
+
+                    productsB = productsB.OrderBy(s => s.CreateDate);
+
+                    break;
+                case SortState.DateDesc:
+
+                    productsB = productsB.OrderByDescending(s => s.CreateDate);
+
+                    break;
+                case SortState.CategoryAsc:
+
+                    productsB = productsB.OrderBy(s => s.Category.Name);
+
+                    break;
+                case SortState.CategoryDesc:
+
+                    productsB = productsB.OrderByDescending(s => s.Category.Name);
+
+                    break;
+
+                default:
+
+                    productsB = productsB.OrderBy(s => s.Name);
+
+                    break;
+
+            }
+
+            return View(await productsB.AsNoTracking().ToListAsync());
         }
         public IActionResult Index1(int id)
         {
@@ -46,6 +114,14 @@ namespace homework_52.Controllers
             categories = _db.Categories.ToList();
             ViewBag.categories = new SelectList(categories, "Id", "Name");
             return View();
+        }
+        public bool CheckPrice(Product product)
+        {
+            if (product.Price > 50)
+                return true;
+            else
+                return false;
+            
         }
         private ImageModel ReadIForm(IFormFile uploadedFile)
         {

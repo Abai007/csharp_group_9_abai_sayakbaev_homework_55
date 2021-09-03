@@ -26,6 +26,7 @@
                     Имя
 
                     <input asp-for="Name" type="text">
+                    <span asp-validation-for="Name" />
 
                 </label>
 
@@ -38,6 +39,7 @@
                     Адрес
 
                     <input asp-for="Address" type="text">
+                    <span asp-validation-for="Address" />
 
                 </label>
 
@@ -50,6 +52,7 @@
                     Номер телефона
 
                     <input asp-for="ContactPhone" type="text">
+                    <span asp-validation-for="ContactPhone" />
 
                 </label>
 
@@ -72,6 +75,10 @@
             <button type="submit">Заказать</button>
 
         </form>
+        @section Scripts
+        {
+            @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+        }
 
     </div>
 

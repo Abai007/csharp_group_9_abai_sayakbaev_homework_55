@@ -1,45 +1,53 @@
-﻿@model List<Product>
-@{
-    ViewBag.Title = "Категории";
-    Layout = "_Layout";
-}
-<h2>Категории</h2>
+﻿@{ ViewBag.Title = "Категории";
+                Layout = "_Layout"; }
+@model IEnumerable<Product>
+<h2>Продукты</h2>
 <a asp-action="Create" asp-controller="Products">Добавить продукт</a>
 <div class="table_section">
 
-    @if (@Model.Count == 0)
+    @if (@Model == null)
     {
-        <p>Товары еще не добавлены</p>
-    }
-    else
-    {
+<p>Товары еще не добавлены</p> }
+            else
+            {
 <table style="width: 100%;">
-    @foreach (var product in @Model)
-    {
-    <tr>
-        @if (product.Image != null)
+ <tr>
+    <th>Фото</th>
+        <th>
+            <a asp-action="Index" asp-route-sortOrder="@ViewBag.NameSort">Название</a>
+        </th>
+        <th>
+            <a asp-action="Index" asp-route-sortOrder="@ViewBag.PriceSort">Цена</a>
+        </th>
+        <th>
+            <a asp-action="Index" asp-route-sortOrder="@ViewBag.DateSort">Дата создание</a>
+        </th>
+        <th>
+            <a asp-action="Index" asp-route-sortOrder="@ViewBag.BrandSort">Бренд</a>
+        </th>
+        <th>
+            <a asp-action="Index" asp-route-sortOrder="@ViewBag.CategorySort">Категория</a>
+        </th>
+        <th>
+            Подробная информация
+        </th>
+        <th>
+            Заказать
+        </th>
+        @foreach (var product in @Model)
         {
-        <th>Фото</th>
-        }
-        <th>Название</th>
-        <th>Цена</th>
-        <th>Дата создание</th>
-        <th>Подробная информация</th>
-        <th>Заказать</th>
-    </tr>
 
-    <tr>
-        @if (product.Image != null)
-        {
-            <td><img src="@product.Image" width="100" asp-append-version="true"/></td>
-        }
-        <td>@product.Name</td>
-        <td>@product.Price</td>
-        <td>@product.CreateDate</td>
-        <td> <button><a asp-action="Index1" asp-route-id="@product.Id">Подробнее</a></button></td>
-        <td> <button><a asp-action="Create" asp-controller="Orders" asp-route-productId="@product.Id">Заказать</a></button></td>
-    </tr>
-    }
-</table>
-    }
+                    <tr>
+                    @if (product.Image != null)
+                       {
+                        <td><img src="@product.Image" width="100" asp-append-version="true" /></td>}
+                        <td>@product.Name</td>
+                        <td>@product.Price</td>
+                        <td>@product.CreateDate</td>
+                        <td>@product.Brend.Name</td>
+                        <td>@product.Category.Name</td>
+                        <td> <button><a asp-action="Index1" asp-route-id="@product.Id">Подробнее</a></button></td>
+                        <td> <button><a asp-action="Create" asp-controller="Orders" asp-route-productId="@product.Id">Заказать</a></button></td>
+</tr>}
+</table>}
 </div>
