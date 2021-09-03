@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using homework_52.Models;
+using homework_55.Models;
 
-namespace homework_52.Migrations
+namespace homework_55.Migrations
 {
     [DbContext(typeof(StoreContext))]
     [Migration("20210902191148_DropTableImage")]

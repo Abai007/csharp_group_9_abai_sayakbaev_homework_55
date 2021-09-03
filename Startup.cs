@@ -1,4 +1,4 @@
-using homework_52.Models;
+using homework_55.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace homework_52
+namespace homework_55
 {
     public class Startup
     {

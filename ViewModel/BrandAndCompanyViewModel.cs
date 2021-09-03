@@ -1,11 +1,11 @@
-﻿using homework_52.Models;
+﻿using homework_55.Models;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace homework_52.ViewModel
+namespace homework_55.ViewModel
 {
     public class BrandAndCompanyViewModel
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace homework_52.Migrations
+namespace homework_55.Migrations
 {
     public partial class DropTableImages : Migration
     {

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace homework_52
+namespace homework_55
 {
     public class Program
     {

@@ -1,6 +1,6 @@
-﻿using homework_52.Enam;
-using homework_52.Models;
-using homework_52.ViewModel;
+﻿using homework_55.Enam;
+using homework_55.Models;
+using homework_55.ViewModel;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace homework_52.Controllers
+namespace homework_55.Controllers
 {
     public class ProductsController : Controller
     {

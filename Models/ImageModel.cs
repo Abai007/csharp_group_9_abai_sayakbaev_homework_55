@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace homework_52.Models
+namespace homework_55.Models
 {
     public class ImageModel
     {
